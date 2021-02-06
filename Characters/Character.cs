@@ -1,5 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using EDU_OOP_RPG.Artifacts;
+using EDU_OOP_RPG.Exceptions;
+using EDU_OOP_RPG.Spells.BaseSpells;
+using EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces;
 
 public enum states
 {
@@ -29,6 +34,8 @@ public enum genders
 
 public class Character : IComparable
 {
+    private List<AbstractArtifact> artifactList = new List<AbstractArtifact>();
+
     private int id;
     private string name;
     private states state;
@@ -217,6 +224,148 @@ public class Character : IComparable
         }
     }
 
+    public bool IsInventoryContainsArtifact(AbstractArtifact artifact)
+    {
+        return artifactList.Contains(artifact);
+    }
+
+    public void AddArtifactToInventory(AbstractArtifact artifact)
+    {
+        artifactList.Add(artifact);
+    }
+
+    public void RemoveArtifactFromInventory(AbstractArtifact artifact)
+    {
+        if (IsInventoryContainsArtifact(artifact))
+        {
+            artifactList.Remove(artifact);
+        }
+        else
+        {
+            throw new RpgException("Персонаж не имеет этого артефакта!");
+        }
+    }
+
+    public List<AbstractArtifact> GetArtifactInventory()
+    {
+        if (artifactList.Capacity != 0)
+        {
+            return artifactList;
+        }
+        else
+        {
+            throw new RpgException("Персонаж не имеет ни одного предмета в инвентаре!");
+        }
+    }
+
+    #region UseArtifact
+
+    public void UseArtifact(ITargetSpell spell, Character character)
+    {
+        if (State != states.Dead)
+        {
+            AbstractArtifact abstractArtifact = (AbstractArtifact) spell;
+            if (IsInventoryContainsArtifact(abstractArtifact))
+            {
+                spell.Cast(character);
+            }
+            else
+            {
+                throw new RpgException("Персонаж не имеет этот предмет в инвентаре");
+            }
+        }
+        else
+        {
+            throw new RpgException("Персонаж мёртв!");
+        }
+    }
+
+    public void UseArtifact(IGradeTargetSpell spell, Character character, int grade)
+    {
+        if (State != states.Dead)
+        {
+            AbstractArtifact abstractArtifact = (AbstractArtifact) spell;
+            if (IsInventoryContainsArtifact(abstractArtifact))
+            {
+                spell.Cast(character, grade);
+            }
+            else
+            {
+                throw new RpgException("Персонаж не имеет этот предмет в инвентаре");
+            }
+        }
+        else
+        {
+            throw new RpgException("Персонаж мёртв!");
+        }
+    }
+    
+    public void UseArtifact(IGradeSpell spell, int grade)
+    {
+        if (State != states.Dead)
+        {
+            AbstractArtifact abstractArtifact = (AbstractArtifact) spell;
+            if (IsInventoryContainsArtifact(abstractArtifact))
+            {
+                spell.Cast(grade);
+            }
+            else
+            {
+                throw new RpgException("Персонаж не имеет этот предмет в инвентаре");
+            }
+        }
+        else
+        {
+            throw new RpgException("Персонаж мёртв!");
+        }
+    }
+    
+    public void UseArtifact(ISelfSpell spell)
+    {
+        if (State != states.Dead)
+        {
+            AbstractArtifact abstractArtifact = (AbstractArtifact) spell;
+            if (IsInventoryContainsArtifact(abstractArtifact))
+            {
+                spell.Cast();
+            }
+            else
+            {
+                throw new RpgException("Персонаж не имеет этот предмет в инвентаре");
+            }
+        }
+        else
+        {
+            throw new RpgException("Персонаж мёртв!");
+        }
+    }
+
+    #endregion
+
+    private string GetLearnedSpellToPrint()
+    {
+        try
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("learnedSpells=");
+            List<AbstractArtifact> learnedSpells = GetArtifactInventory();
+            for (int i = 0; i < learnedSpells.Count; i++)
+            {
+                string[] classPath = learnedSpells[i].ToString().Split('.');
+                stringBuilder.Append(classPath[classPath.Length - 1]);
+                if (i != learnedSpells.Count - 1)
+                {
+                    stringBuilder.Append(", ");
+                }
+            }
+            return stringBuilder.ToString();
+        }
+        catch (RpgException e)
+        {
+            return "No artifact has";
+        }
+    }
+
     public override string ToString()
     {
         return "Character" + "\n" +
@@ -230,6 +379,7 @@ public class Character : IComparable
                "age=" + Age + "\n" +
                "currentHealth=" + CurrentHealth + "\n" +
                "maxHealth=" + MaxHealth + "\n" +
-               "experience=" + Experience;
+               "experience=" + Experience + "\n" +
+               GetLearnedSpellToPrint();
     }
 }
