@@ -41,13 +41,14 @@ public class Character : IComparable
     private int maxHealth;
     private int experience;
 
-    private static HashSet<Int32> globalIdSet;
+    private static HashSet<Int32> globalIdSet = new HashSet<int>();
 
     public Character(int id, string name, races race, genders gender)
     {
         if (!globalIdSet.Contains(id))
         {
             this.id = id;
+            globalIdSet.Add(id);
         }
         else
         {
@@ -63,7 +64,7 @@ public class Character : IComparable
     {
         if (MaxHealth != 0)
         {
-            return health / MaxHealth;
+            return (double) health / MaxHealth;
         }
         else
         {
@@ -226,7 +227,7 @@ public class Character : IComparable
                "canMove=" + CanMove + "\n" +
                "race='" + Race + '\'' + "\n" +
                "gender='" + Gender + '\'' + "\n" +
-               "ge=" + Age + "\n" +
+               "age=" + Age + "\n" +
                "currentHealth=" + CurrentHealth + "\n" +
                "maxHealth=" + MaxHealth + "\n" +
                "experience=" + Experience;

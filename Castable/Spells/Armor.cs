@@ -7,6 +7,14 @@ namespace EDU_OOP_RPG.Spells
 {
     public class Armor : AbstractSpell, IGradeTargetSpell
     {
+        public Armor()
+        {
+        }
+
+        public Armor(int manaCost) : base(manaCost)
+        {
+        }
+        
         public Armor(int manaCost, bool isVerbal, bool isMotor) : base(manaCost, isVerbal, isMotor)
         {
         }

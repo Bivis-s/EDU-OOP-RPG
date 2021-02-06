@@ -6,6 +6,10 @@ namespace EDU_OOP_RPG.Spells
 {
     public class Heal : AbstractSpell, ITargetSpell
     {
+        public Heal(int manaCost) : base(manaCost)
+        {
+        }
+
         public Heal(int manaCost, bool isVerbal, bool isMotor) : base(manaCost, isVerbal, isMotor)
         {
         }

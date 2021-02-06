@@ -6,6 +6,10 @@
         private bool isVerbal;
         private bool isMotor;
 
+        protected AbstractSpell()
+        {
+        }
+
         protected AbstractSpell(int manaCost)
         {
             this.manaCost = manaCost;

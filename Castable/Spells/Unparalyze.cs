@@ -6,6 +6,10 @@ namespace EDU_OOP_RPG.Spells
 {
     public class Unparalyze : AbstractSpell, ITargetSpell
     {
+        public Unparalyze(int manaCost) : base(manaCost)
+        {
+        }
+        
         public Unparalyze(int manaCost, bool isVerbal, bool isMotor) : base(manaCost, isVerbal, isMotor)
         {
         }

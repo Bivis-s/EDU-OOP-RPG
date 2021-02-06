@@ -6,6 +6,10 @@ namespace EDU_OOP_RPG.Spells
 {
     public class Revive : AbstractSpell, ITargetSpell
     {
+        public Revive(int manaCost) : base(manaCost)
+        {
+        }
+        
         public Revive(int manaCost, bool isVerbal, bool isMotor) : base(manaCost, isVerbal, isMotor)
         {
         }

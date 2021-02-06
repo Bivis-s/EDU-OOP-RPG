@@ -6,6 +6,10 @@ namespace EDU_OOP_RPG.Spells
 {
     public class Antidote : AbstractSpell, ITargetSpell
     {
+        public Antidote(int manaCost) : base(manaCost)
+        {
+        }
+        
         public Antidote(int manaCost, bool isVerbal, bool isMotor) : base(manaCost, isVerbal, isMotor)
         {
         }
