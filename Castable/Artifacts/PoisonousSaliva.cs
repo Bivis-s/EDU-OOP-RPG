@@ -3,13 +3,13 @@ using EDU_OOP_RPG.Exceptions;
 
 namespace EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts
 {
-    public class PoisonousSaliva : AbstractArtifact, ITargetSpell
+    public class PoisonousSaliva : AbstractArtifact, IGradeTargetSpell
     {
         public PoisonousSaliva(int capacity, bool reusable) : base(capacity, reusable)
         {
         }
-        
-        public void Cast(Character character)
+
+        public void Cast(Character character, int grade)
         {
             if (Capacity > 0)
             {
@@ -17,20 +17,27 @@ namespace EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts
                 {
                     throw new RpgException("Цель мертва");
                 }
-
-                int spentCapacity;
-                if (character.HealthDifference() >= Capacity)
+                if (grade <= Capacity)
                 {
-                    spentCapacity = Capacity - character.HealthDifference();
-                    character.CurrentHealth = 0;
+                    if (character.HealthDifference() < grade)
+                    {
+                        character.CurrentHealth = 0;
+                    }
+                    else
+                    {
+                        character.CurrentHealth -= grade;
+                        character.State = states.Poisoned;
+                    }
+                    Capacity -= grade;
                 }
                 else
                 {
-                    character.CurrentHealth -= Capacity;
-                    spentCapacity = Capacity;
+                    throw new RpgException($"Указана мощность {grade}, когда доступно {Capacity}");
                 }
-
-                Capacity -= spentCapacity;
+            }
+            else
+            {
+                throw new RpgException("Ресур посоха исчерпан");
             }
         }
     }

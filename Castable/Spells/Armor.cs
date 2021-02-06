@@ -26,10 +26,10 @@ namespace EDU_OOP_RPG.Spells
                 throw new RpgException("Цель заклинания мертва");
             }
 
+            states oldState = character.State;
+            character.State = states.Invulnerable;
             Thread invulnerableTimer = new Thread(() =>
             {
-                states oldState = character.State;
-                character.State = states.Invulnerable;
                 Thread.Sleep(1000 * grade);
                 character.State = oldState;
             });

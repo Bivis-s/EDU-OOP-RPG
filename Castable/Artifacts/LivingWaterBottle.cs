@@ -1,4 +1,5 @@
 using EDU_OOP_RPG.Artifacts;
+using EDU_OOP_RPG.Exceptions;
 
 namespace EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts
 {
@@ -10,18 +11,25 @@ namespace EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts
 
         public void Cast(Character character)
         {
-            if (character.HealthDifference() > Capacity)
+            if (Capacity > 0)
             {
-                character.CurrentHealth = character.MaxHealth;
+                if (character.HealthDifference() < Capacity)
+                {
+                    character.CurrentHealth = character.MaxHealth;
+                }
+                else
+                {
+                    character.CurrentHealth += Capacity;
+                }
+
+                if (!Reusable)
+                {
+                    Capacity = 0;
+                }
             }
             else
             {
-                character.CurrentHealth += Capacity;
-            }
-
-            if (!Reusable)
-            {
-                Capacity = 0;
+                throw new RpgException("Ресурс артефакта исчерпан");
             }
         }
     }

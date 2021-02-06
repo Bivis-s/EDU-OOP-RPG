@@ -13,16 +13,26 @@ namespace EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts
         {
             if (Capacity > 0)
             {
-                if (character.HealthDifference() > grade)
+                if (character.State == states.Dead)
                 {
-                    character.CurrentHealth = 0;
+                    throw new RpgException("Цель мертва");
                 }
-                else
+                
+                if (grade <= Capacity)
                 {
-                    character.CurrentHealth -= grade;
+                    if (character.HealthDifference() < grade)
+                    {
+                        character.CurrentHealth = 0;
+                    }
+                    else
+                    {
+                        character.CurrentHealth -= grade;
+                    }
+                    Capacity -= grade;
+                } else
+                {
+                    throw new RpgException($"Указана мощность {grade}, когда доступно {Capacity}");
                 }
-
-                Capacity -= grade;
             }
             else
             {

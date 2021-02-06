@@ -16,7 +16,7 @@ namespace EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts
                 {
                     Wizard wizard = (Wizard) character;
                     
-                    if (wizard.ManaDifference() > Capacity)
+                    if (wizard.ManaDifference() < Capacity)
                     {
                         wizard.CurrentHealth = wizard.MaxHealth;
                     }
@@ -32,7 +32,7 @@ namespace EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts
                 }
                 else
                 {
-                    throw new RpgException("Живая вода не действует на эту сущность");
+                    throw new RpgException("Живая вода не действует на сущность не имеющую маны");
                 }
             }
         }

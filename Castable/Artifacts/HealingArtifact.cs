@@ -13,17 +13,24 @@ namespace EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts
         {
             if (Capacity > 0)
             {
+                if (character.State == states.Dead)
+                {
+                    throw new RpgException("Цель мертва");
+                }
                 if (grade <= Capacity)
                 {
                     AddHealthSpell addHealthSpell = new AddHealthSpell(Capacity);
-                    int spentCapacity = grade - character.HealthDifference();
                     addHealthSpell.Cast(character, grade);
-                    Capacity -= spentCapacity;
+                    Capacity -= grade;
+                }
+                else
+                {
+                    throw new RpgException($"Указана мощность {grade}, когда доступно {Capacity}");
                 }
             }
             else
             {
-                throw new RpgException("Не хватает ресурса артефакта");
+                throw new RpgException("Ресурс артефакта лечения исчерпан");
             }
         }
     }

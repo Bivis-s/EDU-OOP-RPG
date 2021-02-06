@@ -18,7 +18,7 @@ namespace EDU_OOP_RPG.Spells
         {
             if (character.State != states.Ill)
             {
-                throw new RpgException("Невозможно исцелить цель заклинания");
+                throw new RpgException("Цель заклинания не больна!");
             }
 
             character.State = states.Normal;
