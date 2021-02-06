@@ -49,5 +49,10 @@ namespace EDU_OOP_RPG.Characters
                 }
             }
         }
+
+        public int ManaDifference()
+        {
+            return MaxMana - CurrentMana;
+        }
     }
 }

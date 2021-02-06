@@ -199,6 +199,11 @@ public class Character : IComparable
 
     #endregion
 
+    public int HealthDifference()
+    {
+        return MaxHealth - CurrentHealth;
+    }
+
     public int CompareTo(object obj)
     {
         if (obj is Character)
