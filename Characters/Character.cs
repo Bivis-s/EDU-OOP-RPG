@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 public enum states
@@ -42,15 +41,18 @@ public class Character : IComparable
     private int experience;
 
     private static HashSet<Int32> globalIdSet;
+
     public Character(int id, string name, races race, genders gender)
     {
         if (!globalIdSet.Contains(id))
         {
             this.id = id;
-        } else
+        }
+        else
         {
             throw new ArgumentException("Идентификатор персонажа не уникален!");
         }
+
         this.name = name;
         this.race = race;
         this.gender = gender;
@@ -74,16 +76,19 @@ public class Character : IComparable
         if (healthDegree >= 0.1)
         {
             State = states.Normal;
-        } else if (healthDegree == 0)
+        }
+        else if (healthDegree == 0)
         {
             State = states.Dead;
-        } else
+        }
+        else
         {
             State = states.Weakened;
         }
     }
 
     #region getters and setters
+
     public int Id
     {
         get => id;
@@ -105,6 +110,7 @@ public class Character : IComparable
         get => canSpeak;
         set => canSpeak = value;
     }
+
     public bool CanMove
     {
         get => canMove;
@@ -145,7 +151,8 @@ public class Character : IComparable
             if (value > MaxHealth)
             {
                 throw new ArgumentException("Текущее здоровье не может стать больше максимального");
-            } else if (value >= 0)
+            }
+            else if (value >= 0)
             {
                 SetStateByHealth(value);
                 currentHealth = value;
@@ -188,6 +195,7 @@ public class Character : IComparable
             }
         }
     }
+
     #endregion
 
     public int CompareTo(object obj)
@@ -205,16 +213,16 @@ public class Character : IComparable
     public override string ToString()
     {
         return "Character" + "\n" +
-                "id=" + Id + "\n" +
-                "name='" + Name + '\'' + "\n" +
-                "state='" + State + '\'' + "\n" +
-                "canSpeak=" + CanSpeak + "\n" +
-                "canMove=" + CanMove + "\n" +
-                "race='" + Race + '\'' + "\n" +
-                "gender='" + Gender + '\'' + "\n" +
-                "ge=" + Age + "\n" +
-                "currentHealth=" + CurrentHealth + "\n" +
-                "maxHealth=" + MaxHealth + "\n" +
-                "experience=" + Experience;
+               "id=" + Id + "\n" +
+               "name='" + Name + '\'' + "\n" +
+               "state='" + State + '\'' + "\n" +
+               "canSpeak=" + CanSpeak + "\n" +
+               "canMove=" + CanMove + "\n" +
+               "race='" + Race + '\'' + "\n" +
+               "gender='" + Gender + '\'' + "\n" +
+               "ge=" + Age + "\n" +
+               "currentHealth=" + CurrentHealth + "\n" +
+               "maxHealth=" + MaxHealth + "\n" +
+               "experience=" + Experience;
     }
 }
