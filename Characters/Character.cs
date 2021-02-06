@@ -8,6 +8,7 @@ public enum states
     Ill,
     Poisoned,
     Paralyzed,
+    Invulnerable,
     Dead
 }
 
