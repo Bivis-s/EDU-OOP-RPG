@@ -13,17 +13,11 @@ namespace EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts
         {
             if (Capacity > 0)
             {
-                if (character.State != states.Dead)
-                {
-                    throw new RpgException("Цель не мертва");
-                }
-            
-                character.State = states.Paralyzed;
-            
-                if (!Reusable)
-                {
-                    Capacity = 0;
-                }
+                if (character.State != States.Dead) throw new RpgException("Цель не мертва");
+
+                character.State = States.Paralyzed;
+
+                if (!Reusable) Capacity = 0;
             }
         }
     }

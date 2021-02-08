@@ -5,35 +5,28 @@ using EDU_OOP_RPG.Exceptions;
 namespace EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts
 {
     public class DeadWaterBottle : AbstractArtifact, ITargetSpell
+    {
+        public DeadWaterBottle(int capacity, bool reusable) : base(capacity, reusable)
         {
-            public DeadWaterBottle(int capacity, bool reusable) : base(capacity, reusable)
-            {
-            }
+        }
 
-            public void Cast(Character character)
+        public void Cast(Character character)
+        {
+            if (character is Wizard)
             {
-                if (character is Wizard)
-                {
-                    Wizard wizard = (Wizard) character;
-                    
-                    if (wizard.ManaDifference() < Capacity)
-                    {
-                        wizard.CurrentHealth = wizard.MaxHealth;
-                    }
-                    else
-                    {
-                        wizard.CurrentHealth += Capacity;
-                    }
+                var wizard = (Wizard) character;
 
-                    if (!Reusable)
-                    {
-                        Capacity = 0;
-                    }
-                }
+                if (wizard.ManaDifference() < Capacity)
+                    wizard.CurrentHealth = wizard.MaxHealth;
                 else
-                {
-                    throw new RpgException("Живая вода не действует на сущность не имеющую маны");
-                }
+                    wizard.CurrentHealth += Capacity;
+
+                if (!Reusable) Capacity = 0;
+            }
+            else
+            {
+                throw new RpgException("Живая вода не действует на сущность не имеющую маны");
             }
         }
+    }
 }

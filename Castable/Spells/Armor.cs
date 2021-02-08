@@ -14,23 +14,20 @@ namespace EDU_OOP_RPG.Spells
         public Armor(int manaCost) : base(manaCost)
         {
         }
-        
+
         public Armor(int manaCost, bool isVerbal, bool isMotor) : base(manaCost, isVerbal, isMotor)
         {
         }
 
         public void Cast(Character character, int grade)
         {
-            if (character.State != states.Invulnerable)
+            if (character.State != States.Invulnerable)
             {
-                if (character.State == states.Dead)
-                {
-                    throw new RpgException("Цель заклинания мертва");
-                }
+                if (character.State == States.Dead) throw new RpgException("Цель заклинания мертва");
 
-                states oldState = character.State;
-                character.State = states.Invulnerable;
-                Thread invulnerableTimer = new Thread(() =>
+                var oldState = character.State;
+                character.State = States.Invulnerable;
+                var invulnerableTimer = new Thread(() =>
                 {
                     Thread.Sleep(1000 * grade);
                     character.State = oldState;

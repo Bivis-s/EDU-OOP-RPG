@@ -2,44 +2,28 @@
 {
     public abstract class AbstractSpell
     {
-        private int manaCost;
-        private bool isVerbal;
-        private bool isMotor;
-
         protected AbstractSpell()
         {
         }
 
         protected AbstractSpell(int manaCost)
         {
-            this.manaCost = manaCost;
+            ManaCost = manaCost;
         }
 
         public AbstractSpell(int manaCost, bool isVerbal, bool isMotor)
         {
-            this.manaCost = manaCost;
-            this.isVerbal = isVerbal;
-            this.isMotor = isMotor;
+            ManaCost = manaCost;
+            IsVerbal = isVerbal;
+            IsMotor = isMotor;
         }
 
-        public int ManaCost
-        {
-            get => manaCost;
-            set => manaCost = value;
-        }
+        public int ManaCost { get; set; }
 
-        public bool IsVerbal
-        {
-            get => isVerbal;
-            set => isVerbal = value;
-        }
+        public bool IsVerbal { get; set; }
 
-        public bool IsMotor
-        {
-            get => isMotor;
-            set => isMotor = value;
-        }
-        
+        public bool IsMotor { get; set; }
+
         public override string ToString()
         {
             return GetType().Name + " Mana cost: " + ManaCost;

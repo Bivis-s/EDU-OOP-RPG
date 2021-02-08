@@ -16,12 +16,9 @@ namespace EDU_OOP_RPG.Spells
 
         public void Cast(Character character)
         {
-            if (character.State != states.Ill)
-            {
-                throw new RpgException("Цель заклинания не больна!");
-            }
+            if (character.State != States.Ill) throw new RpgException("Цель заклинания не больна!");
 
-            character.State = states.Normal;
+            character.State = States.Normal;
         }
     }
 }

@@ -2,26 +2,15 @@ namespace EDU_OOP_RPG.Artifacts
 {
     public class AbstractArtifact
     {
-        private int capacity;
-        private bool reusable;
-
         public AbstractArtifact(int capacity, bool reusable)
         {
-            this.capacity = capacity;
-            this.reusable = reusable;
+            Capacity = capacity;
+            Reusable = reusable;
         }
 
-        public int Capacity
-        {
-            get => capacity;
-            set => capacity = value;
-        }
+        public int Capacity { get; set; }
 
-        public bool Reusable
-        {
-            get => reusable;
-            set => reusable = value;
-        }
+        public bool Reusable { get; set; }
 
         public override string ToString()
         {

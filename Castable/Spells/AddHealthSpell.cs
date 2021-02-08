@@ -21,19 +21,15 @@ namespace EDU_OOP_RPG.Spells
 
         public void Cast(Character character, int grade)
         {
-            if (character.State != states.Dead)
+            if (character.State != States.Dead)
             {
                 if (character.CurrentHealth != character.MaxHealth)
                 {
-                    int healthToHeal = Convert.ToInt32(Math.Floor((double) grade / 2));
+                    var healthToHeal = Convert.ToInt32(Math.Floor((double) grade / 2));
                     if (character.HealthDifference() >= healthToHeal)
-                    {
                         character.CurrentHealth += healthToHeal;
-                    }
                     else
-                    {
                         character.CurrentHealth = character.MaxHealth;
-                    }
                 }
                 else
                 {

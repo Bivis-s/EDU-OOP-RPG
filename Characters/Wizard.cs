@@ -9,12 +9,11 @@ namespace EDU_OOP_RPG.Characters
 {
     public class Wizard : Character
     {
-        private List<AbstractSpell> spellList = new List<AbstractSpell>();
+        private readonly List<AbstractSpell> spellList = new List<AbstractSpell>();
+        private Character character;
 
         private int currentMana;
         private int maxMana;
-
-        private Character character;
 
         public Wizard(Character character)
         {
@@ -31,7 +30,7 @@ namespace EDU_OOP_RPG.Characters
             Experience = character.Experience;
         }
 
-        public Wizard(int id, string name, races race, genders gender) : base(id, name,
+        public Wizard(int id, string name, Races race, Genders gender) : base(id, name,
             race, gender)
         {
         }
@@ -42,17 +41,11 @@ namespace EDU_OOP_RPG.Characters
             set
             {
                 if (value > MaxMana)
-                {
                     throw new ArgumentException("Текущая мана не может стать больше максимальной");
-                }
-                else if (value >= 0)
-                {
+                if (value >= 0)
                     currentMana = value;
-                }
                 else
-                {
                     throw new ArgumentException("Мана не может стать отрицательной");
-                }
             }
         }
 
@@ -62,13 +55,9 @@ namespace EDU_OOP_RPG.Characters
             set
             {
                 if (value >= 0)
-                {
                     maxMana = value;
-                }
                 else
-                {
                     throw new ArgumentException("Максимальная мана не может стать отрицательной");
-                }
             }
         }
 
@@ -85,57 +74,70 @@ namespace EDU_OOP_RPG.Characters
         public void LearnSpell(AbstractSpell spell)
         {
             if (!IsSpellLearned(spell))
-            {
                 spellList.Add(spell);
-            }
             else
-            {
                 throw new RpgException("Персонаж уже знает это заклинание");
-            }
         }
 
         public void ForgetSpell(AbstractSpell spell)
         {
             if (IsSpellLearned(spell))
-            {
                 spellList.Remove(spell);
-            }
             else
-            {
                 throw new RpgException("Персонаж не знает этого заклинания!");
-            }
         }
 
         public List<AbstractSpell> GetLearnedSpells()
         {
             if (spellList.Capacity != 0)
-            {
                 return spellList;
-            }
-            else
+            throw new RpgException("Персонаж не знает ни одного заклинания!");
+        }
+
+        private string GetLearnedSpellToPrint()
+        {
+            try
             {
-                throw new RpgException("Персонаж не знает ни одного заклинания!");
+                var stringBuilder = new StringBuilder();
+                stringBuilder.Append("learnedSpells=");
+                var learnedSpells = GetLearnedSpells();
+                for (var i = 0; i < learnedSpells.Count; i++)
+                {
+                    var classPath = learnedSpells[i].ToString().Split('.');
+                    stringBuilder.Append(classPath[classPath.Length - 1]);
+                    if (i != learnedSpells.Count - 1) stringBuilder.Append(", ");
+                }
+
+                return stringBuilder.ToString();
             }
+            catch (RpgException e)
+            {
+                return "No spell learned";
+            }
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + " " +
+                   " currentMana=" + CurrentMana +
+                   " maxMana=" + maxMana + " " +
+                   GetLearnedSpellToPrint();
         }
 
         #region CastSpell
 
         public void CastSpell(ITargetSpell spell, Character character)
         {
-            if (State != states.Dead)
+            if (State != States.Dead)
             {
-                AbstractSpell abstractSpell = (AbstractSpell) spell;
+                var abstractSpell = (AbstractSpell) spell;
                 if (IsSpellLearned(abstractSpell))
                 {
-                    int manaCost = abstractSpell.ManaCost;
+                    var manaCost = abstractSpell.ManaCost;
                     if (manaCost <= CurrentMana)
-                    {
                         spell.Cast(character);
-                    }
                     else
-                    {
                         throw new RpgException("Недостаточно маны");
-                    }
 
                     CurrentMana -= manaCost;
                 }
@@ -152,20 +154,16 @@ namespace EDU_OOP_RPG.Characters
 
         public void CastSpell(IGradeTargetSpell spell, Character character, int grade)
         {
-            if (State != states.Dead)
+            if (State != States.Dead)
             {
-                AbstractSpell abstractSpell = (AbstractSpell) spell;
+                var abstractSpell = (AbstractSpell) spell;
                 if (IsSpellLearned(abstractSpell))
                 {
-                    int manaCost = abstractSpell.ManaCost + grade;
+                    var manaCost = abstractSpell.ManaCost + grade;
                     if (manaCost <= CurrentMana)
-                    {
                         spell.Cast(character, grade);
-                    }
                     else
-                    {
                         throw new RpgException("Недостаточно маны");
-                    }
 
                     CurrentMana -= manaCost;
                 }
@@ -182,20 +180,16 @@ namespace EDU_OOP_RPG.Characters
 
         public void CastSpell(IGradeSpell spell, int grade)
         {
-            if (State != states.Dead)
+            if (State != States.Dead)
             {
-                AbstractSpell abstractSpell = (AbstractSpell) spell;
+                var abstractSpell = (AbstractSpell) spell;
                 if (IsSpellLearned(abstractSpell))
                 {
-                    int manaCost = abstractSpell.ManaCost + grade;
+                    var manaCost = abstractSpell.ManaCost + grade;
                     if (manaCost <= CurrentMana)
-                    {
                         spell.Cast(grade);
-                    }
                     else
-                    {
                         throw new RpgException("Недостаточно маны");
-                    }
 
                     CurrentMana -= manaCost;
                 }
@@ -212,20 +206,16 @@ namespace EDU_OOP_RPG.Characters
 
         public void CastSpell(ISelfSpell spell)
         {
-            if (State != states.Dead)
+            if (State != States.Dead)
             {
-                AbstractSpell abstractSpell = (AbstractSpell) spell;
+                var abstractSpell = (AbstractSpell) spell;
                 if (IsSpellLearned(abstractSpell))
                 {
-                    int manaCost = abstractSpell.ManaCost;
+                    var manaCost = abstractSpell.ManaCost;
                     if (manaCost <= CurrentMana)
-                    {
                         spell.Cast();
-                    }
                     else
-                    {
                         throw new RpgException("Недостаточно маны");
-                    }
 
                     CurrentMana -= manaCost;
                 }
@@ -241,37 +231,5 @@ namespace EDU_OOP_RPG.Characters
         }
 
         #endregion
-
-        private string GetLearnedSpellToPrint()
-        {
-            try
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append("learnedSpells=");
-                List<AbstractSpell> learnedSpells = GetLearnedSpells();
-                for (int i = 0; i < learnedSpells.Count; i++)
-                {
-                    string[] classPath = learnedSpells[i].ToString().Split('.');
-                    stringBuilder.Append(classPath[classPath.Length - 1]);
-                    if (i != learnedSpells.Count - 1)
-                    {
-                        stringBuilder.Append(", ");
-                    }
-                }
-                return stringBuilder.ToString();
-            }
-            catch (RpgException e)
-            {
-                return "No spell learned";
-            }
-        }
-
-        public override string ToString()
-        {
-            return base.ToString() + " " +
-                   " currentMana=" + CurrentMana +
-                   " maxMana=" + maxMana + " " +
-                   GetLearnedSpellToPrint();
-        }
     }
 }

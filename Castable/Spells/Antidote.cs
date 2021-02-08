@@ -9,19 +9,16 @@ namespace EDU_OOP_RPG.Spells
         public Antidote(int manaCost) : base(manaCost)
         {
         }
-        
+
         public Antidote(int manaCost, bool isVerbal, bool isMotor) : base(manaCost, isVerbal, isMotor)
         {
         }
 
         public void Cast(Character character)
         {
-            if (character.State != states.Poisoned)
-            {
-                throw new RpgException("Цель заклинания не отравлена");
-            }
+            if (character.State != States.Poisoned) throw new RpgException("Цель заклинания не отравлена");
 
-            character.State = states.Weakened;
+            character.State = States.Weakened;
         }
     }
 }

@@ -12,12 +12,12 @@ using EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts;
 
 namespace EDU_OOP_RPG
 {
-    class Run
+    internal class Run
     {
-        private static List<Character> globalCharacterList = new List<Character>();
-        private static Character globalCurrentCharacter = null;
+        private static readonly List<Character> globalCharacterList = new List<Character>();
+        private static Character globalCurrentCharacter;
 
-        private static List<AbstractSpell> globalSpellList = new List<AbstractSpell>()
+        private static readonly List<AbstractSpell> globalSpellList = new List<AbstractSpell>
         {
             new AddHealthSpell(),
             new Heal(20),
@@ -27,7 +27,7 @@ namespace EDU_OOP_RPG
             new Unparalyze(85)
         };
 
-        private static List<AbstractArtifact> globalArtifactList = new List<AbstractArtifact>()
+        private static readonly List<AbstractArtifact> globalArtifactList = new List<AbstractArtifact>
         {
             new LivingWaterBottle(10, false),
             new LivingWaterBottle(25, false),
@@ -42,36 +42,17 @@ namespace EDU_OOP_RPG
             new HealingArtifact(100, true)
         };
 
-        // private static AddHealthSpell _addHealthSpell = new AddHealthSpell();
-        // private static Heal _heal = new Heal(20);
-        // private static Antidote _antidote = new Antidote(30);
-        // private static Revive _revive = new Revive(150);
-        // private static Armor _armor = new Armor();
-        // private static Unparalyze _unparalyze = new Unparalyze(85);
-
-        // private static LivingWaterBottle _littleLivingWaterBottle = new LivingWaterBottle(10, false);
-        // private static LivingWaterBottle _mediumLivingWaterBottle = new LivingWaterBottle(25, false);
-        // private static LivingWaterBottle _bigLivingWaterBottle = new LivingWaterBottle(50, false);
-        // private static DeadWaterBottle _littleDeadWaterBottle = new DeadWaterBottle(10, false);
-        // private static DeadWaterBottle _mediumDeadWaterBottle = new DeadWaterBottle(25, false);
-        // private static DeadWaterBottle _bigDeadWaterBottle = new DeadWaterBottle(50, false);
-        // private static LightningStaff _lightningStaff = new LightningStaff(125, true);
-        // private static FrogLegsDecoct _frogLegsDecoct = new FrogLegsDecoct(1, false);
-        // private static PoisonousSaliva _poisonousSaliva = new PoisonousSaliva(150, true);
-        // private static BasiliskEye _basiliskEye = new BasiliskEye(1, false);
-        // private static HealingArtifact _healingArtifact = new HealingArtifact(100, true);
-
         private static Character CreateStandardCharacterFromConsole()
         {
-            int id = 0;
-            string name = "Default";
-            races race = races.Human;
-            genders gender = genders.Male;
+            var id = 0;
+            var name = "Default";
+            var race = Races.Human;
+            var gender = Genders.Male;
 
-            bool state = true;
+            var state = true;
             while (state)
             {
-                bool subState = true;
+                var subState = true;
                 while (subState)
                 {
                     Console.WriteLine("Введите уникальный id:");
@@ -109,25 +90,25 @@ namespace EDU_OOP_RPG
                                       "5 - Гоблин\n\n");
                     try
                     {
-                        int sw = Convert.ToInt32(Console.ReadLine());
+                        var sw = Convert.ToInt32(Console.ReadLine());
                         if (sw >= 1 && sw <= 5)
                         {
                             switch (sw)
                             {
                                 case 1:
-                                    race = races.Human;
+                                    race = Races.Human;
                                     break;
                                 case 2:
-                                    race = races.Gnome;
+                                    race = Races.Gnome;
                                     break;
                                 case 3:
-                                    race = races.Elf;
+                                    race = Races.Elf;
                                     break;
                                 case 4:
-                                    race = races.Orc;
+                                    race = Races.Orc;
                                     break;
                                 case 5:
-                                    race = races.Goblin;
+                                    race = Races.Goblin;
                                     break;
                             }
 
@@ -152,16 +133,16 @@ namespace EDU_OOP_RPG
                                       "2 - Женщина\n\n");
                     try
                     {
-                        int sw = Convert.ToInt32(Console.ReadLine());
+                        var sw = Convert.ToInt32(Console.ReadLine());
                         if (sw >= 1 && sw <= 2)
                         {
                             switch (sw)
                             {
                                 case 1:
-                                    gender = genders.Male;
+                                    gender = Genders.Male;
                                     break;
                                 case 2:
-                                    gender = genders.Female;
+                                    gender = Genders.Female;
                                     break;
                             }
 
@@ -185,9 +166,9 @@ namespace EDU_OOP_RPG
 
         private static Character CreateFullCharacterFromConsole()
         {
-            Character character = CreateStandardCharacterFromConsole();
+            var character = CreateStandardCharacterFromConsole();
 
-            bool subState = true;
+            var subState = true;
             while (subState)
             {
                 Console.WriteLine("Введите возраст персонажа: ");
@@ -255,7 +236,7 @@ namespace EDU_OOP_RPG
                                   "2 - Нет\n\n");
                 try
                 {
-                    int sw = Convert.ToInt32(Console.ReadLine());
+                    var sw = Convert.ToInt32(Console.ReadLine());
                     if (sw >= 1 && sw <= 2)
                     {
                         switch (sw)
@@ -289,7 +270,7 @@ namespace EDU_OOP_RPG
                                   "2 - Нет\n\n");
                 try
                 {
-                    int sw = Convert.ToInt32(Console.ReadLine());
+                    var sw = Convert.ToInt32(Console.ReadLine());
                     if (sw >= 1 && sw <= 2)
                     {
                         switch (sw)
@@ -320,8 +301,8 @@ namespace EDU_OOP_RPG
 
         private static Wizard CreateFullWizardFromConsole()
         {
-            Wizard wizard = new Wizard(CreateFullCharacterFromConsole());
-            
+            var wizard = new Wizard(CreateFullCharacterFromConsole());
+
             while (true)
             {
                 Console.WriteLine("Введите значение максимальной маны персонажа персонажа: ");
@@ -335,7 +316,7 @@ namespace EDU_OOP_RPG
                     Console.Write(e.Message);
                 }
             }
-            
+
             while (true)
             {
                 Console.WriteLine("Введите значение текущей маны персонажа: ");
@@ -356,7 +337,7 @@ namespace EDU_OOP_RPG
         private static void AddCharacterToListFromConsole()
         {
             Character character = null;
-            bool subState = true;
+            var subState = true;
             while (subState)
             {
                 Console.WriteLine("Выберите тип создаваемого персонажа:\n" +
@@ -365,7 +346,7 @@ namespace EDU_OOP_RPG
 
                 try
                 {
-                    int sw = Convert.ToInt32(Console.ReadLine());
+                    var sw = Convert.ToInt32(Console.ReadLine());
                     switch (sw)
                     {
                         case 1:
@@ -395,13 +376,11 @@ namespace EDU_OOP_RPG
         {
             if (globalCharacterList.Count != 0)
             {
-                StringBuilder stringBuilder = new StringBuilder();
-                foreach (Character character in globalCharacterList)
-                {
+                var stringBuilder = new StringBuilder();
+                foreach (var character in globalCharacterList)
                     stringBuilder
-                        .Append(character.ToString())
+                        .Append(character)
                         .Append("\n\n");
-                }
 
                 Console.WriteLine(stringBuilder.ToString());
             }
@@ -413,51 +392,49 @@ namespace EDU_OOP_RPG
 
         private static Character GetCharacterFromConsole()
         {
-            try
-            {
-                bool subState = true;
-                while (subState)
+            if (globalCharacterList.Count != 0)
+                try
                 {
-                    Console.WriteLine("Введите id персонажа: ");
-                    int characterId = 0;
-                    try
+                    var subState = true;
+                    while (subState)
                     {
-                        characterId = Convert.ToInt32(Console.ReadLine());
-                        subState = false;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.Write(e.Message);
-                    }
+                        Console.WriteLine("Введите id персонажа: ");
+                        var characterId = 0;
+                        try
+                        {
+                            characterId = Convert.ToInt32(Console.ReadLine());
+                            subState = false;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.Write(e.Message);
+                        }
 
-                    var selectedCharacter = from t in globalCharacterList
-                        where t.Id.Equals(characterId)
-                        select t;
-                    return selectedCharacter.First();
+                        var selectedCharacter = from t in globalCharacterList
+                            where t.Id.Equals(characterId)
+                            select t;
+                        return selectedCharacter.First();
+                    }
                 }
-            }
-            catch (InvalidOperationException)
-            {
-                Console.WriteLine("Персонаж с заданным id не найден");
-            }
+                catch (InvalidOperationException)
+                {
+                    Console.WriteLine("Персонаж с заданным id не найден");
+                }
+            else
+                Console.WriteLine("Список персонажей пуст!");
 
             throw new RpgException("Не удалось выбрать персонажа");
         }
 
         private static void PrintGlobalArtifactList()
         {
-            for (int i = 0; i < globalArtifactList.Count; i++)
-            {
-                Console.WriteLine(i + " - " + globalArtifactList[i]);
-            }
+            for (var i = 0; i < globalArtifactList.Count; i++) Console.WriteLine(i + " - " + globalArtifactList[i]);
         }
 
         private static void PrintArtifactInventory(Character character)
         {
-            for (int i = 0; i < character.GetArtifactInventory().Count; i++)
-            {
+            for (var i = 0; i < character.GetArtifactInventory().Count; i++)
                 Console.WriteLine(i + " - " + character.GetArtifactInventory()[i]);
-            }
         }
 
         private static int GetGradeFromConsole()
@@ -487,28 +464,19 @@ namespace EDU_OOP_RPG
                 num = Convert.ToInt32(Console.ReadLine());
                 if (num >= 0 && num < character.GetArtifactInventory().Count)
                 {
-                    AbstractArtifact artifact = character.GetArtifactInventory()[num];
+                    var artifact = character.GetArtifactInventory()[num];
 
                     if (artifact is IGradeTargetSpell)
-                    {
                         character.UseArtifact((IGradeTargetSpell) artifact, GetCharacterFromConsole(),
                             GetGradeFromConsole());
-                    }
                     else if (artifact is ITargetSpell)
-                    {
                         character.UseArtifact((ITargetSpell) artifact, GetCharacterFromConsole());
-                    }
 
                     else if (artifact is IGradeSpell)
-                    {
                         character.UseArtifact((IGradeSpell) artifact,
                             GetGradeFromConsole());
-                    }
 
-                    else if (artifact is ISelfSpell)
-                    {
-                        character.UseArtifact((ISelfSpell) artifact);
-                    }
+                    else if (artifact is ISelfSpell) character.UseArtifact((ISelfSpell) artifact);
                 }
                 else
                 {
@@ -523,7 +491,7 @@ namespace EDU_OOP_RPG
 
         private static void TransferArtifact(Character character, Character character2)
         {
-            bool state = true;
+            var state = true;
             while (state)
             {
                 PrintArtifactInventory(character);
@@ -558,13 +526,9 @@ namespace EDU_OOP_RPG
             {
                 num = Convert.ToInt32(Console.ReadLine());
                 if (num >= 0 && num < character.GetArtifactInventory().Count)
-                {
                     character.RemoveArtifactFromInventory(character.GetArtifactInventory()[num]);
-                }
                 else
-                {
                     Console.WriteLine("Артефакта под таким номером нет в инвентаре");
-                }
             }
             catch (Exception e)
             {
@@ -581,28 +545,21 @@ namespace EDU_OOP_RPG
             {
                 num = Convert.ToInt32(Console.ReadLine());
                 if (num >= 0 && num < globalArtifactList.Count)
-                {
                     character.AddArtifactToInventory(globalArtifactList[num]);
-                }
                 else
-                {
                     Console.WriteLine("Артефакта под таким номером нет");
-                }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
         }
-        
+
         private static void PrintGlobalSpellList()
         {
-            for (int i = 0; i < globalSpellList.Count; i++)
-            {
-                Console.WriteLine(i + " - " + globalSpellList[i]);
-            }
+            for (var i = 0; i < globalSpellList.Count; i++) Console.WriteLine(i + " - " + globalSpellList[i]);
         }
-        
+
         private static void LearnSpellFromGlobalListFromConsole(Character character)
         {
             if (character is Wizard)
@@ -614,13 +571,9 @@ namespace EDU_OOP_RPG
                 {
                     num = Convert.ToInt32(Console.ReadLine());
                     if (num >= 0 && num < globalSpellList.Count)
-                    {
                         ((Wizard) character).LearnSpell(globalSpellList[num]);
-                    }
                     else
-                    {
                         Console.WriteLine("Заклинания под таким номером нет");
-                    }
                 }
                 catch (Exception e)
                 {
@@ -632,20 +585,18 @@ namespace EDU_OOP_RPG
                 Console.WriteLine("Персонаж не владеет магией!");
             }
         }
-        
+
         private static void PrintLearnedSpell(Wizard wizard)
         {
-            for (int i = 0; i < wizard.GetLearnedSpells().Count; i++)
-            {
+            for (var i = 0; i < wizard.GetLearnedSpells().Count; i++)
                 Console.WriteLine(i + " - " + wizard.GetLearnedSpells()[i]);
-            }
         }
-        
+
         private static void ForgetSpellFromConsole(Character character)
         {
             if (character is Wizard)
             {
-                Wizard wizard = (Wizard) character;
+                var wizard = (Wizard) character;
                 PrintLearnedSpell(wizard);
                 Console.WriteLine("Введите номер артефакта: ");
                 int num;
@@ -653,13 +604,9 @@ namespace EDU_OOP_RPG
                 {
                     num = Convert.ToInt32(Console.ReadLine());
                     if (num >= 0 && num < wizard.GetLearnedSpells().Count)
-                    {
                         wizard.ForgetSpell(wizard.GetLearnedSpells()[num]);
-                    }
                     else
-                    {
                         Console.WriteLine("Артефакта под таким номером нет в инвентаре");
-                    }
                 }
                 catch (Exception e)
                 {
@@ -671,12 +618,12 @@ namespace EDU_OOP_RPG
                 Console.WriteLine("Персонаж не владеет магией");
             }
         }
-        
+
         private static void CastSpellFromConsole(Character character)
         {
             if (character is Wizard)
             {
-                Wizard wizard = (Wizard) character;
+                var wizard = (Wizard) character;
                 PrintCharacterList();
                 PrintLearnedSpell(wizard);
                 Console.WriteLine("Введите номер заклинания: ");
@@ -686,28 +633,19 @@ namespace EDU_OOP_RPG
                     num = Convert.ToInt32(Console.ReadLine());
                     if (num >= 0 && num < wizard.GetLearnedSpells().Count)
                     {
-                        AbstractSpell spell = wizard.GetLearnedSpells()[num];
+                        var spell = wizard.GetLearnedSpells()[num];
 
                         if (spell is IGradeTargetSpell)
-                        {
                             wizard.CastSpell((IGradeTargetSpell) spell, GetCharacterFromConsole(),
                                 GetGradeFromConsole());
-                        }
                         else if (spell is ITargetSpell)
-                        {
                             wizard.CastSpell((ITargetSpell) spell, GetCharacterFromConsole());
-                        }
 
                         else if (spell is IGradeSpell)
-                        {
                             wizard.CastSpell((IGradeSpell) spell,
                                 GetGradeFromConsole());
-                        }
 
-                        else if (spell is ISelfSpell)
-                        {
-                            wizard.CastSpell((ISelfSpell) spell);
-                        }
+                        else if (spell is ISelfSpell) wizard.CastSpell((ISelfSpell) spell);
                     }
                     else
                     {
@@ -732,7 +670,7 @@ namespace EDU_OOP_RPG
                 PrintCharacterList();
                 globalCurrentCharacter = GetCharacterFromConsole();
 
-                bool subState = true;
+                var subState = true;
                 while (subState)
                 {
                     Console.WriteLine("Выберите действие:\n" +
@@ -746,7 +684,7 @@ namespace EDU_OOP_RPG
                                       "0 - Выход\n\n");
                     try
                     {
-                        int sw = Convert.ToInt32(Console.ReadLine());
+                        var sw = Convert.ToInt32(Console.ReadLine());
                         switch (sw)
                         {
                             case 1:
@@ -787,9 +725,9 @@ namespace EDU_OOP_RPG
             }
         }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            bool state = true;
+            var state = true;
             while (state)
             {
                 Console.WriteLine(
@@ -801,7 +739,7 @@ namespace EDU_OOP_RPG
                 );
                 try
                 {
-                    int sw = Convert.ToInt32(Console.ReadLine());
+                    var sw = Convert.ToInt32(Console.ReadLine());
                     Console.Clear();
                     switch (sw)
                     {
@@ -821,13 +759,12 @@ namespace EDU_OOP_RPG
                 }
                 catch (FormatException)
                 {
-                    Console.Write("Введено неверное значение");
+                    Console.WriteLine("Введено неверное значение");
                 }
-
-                // catch (Exception e)
-                // {
-                //     Console.WriteLine(e.Message);
-                // }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
     }

@@ -14,18 +14,11 @@ namespace EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts
             if (Capacity > 0)
             {
                 if (character.HealthDifference() < Capacity)
-                {
                     character.CurrentHealth = character.MaxHealth;
-                }
                 else
-                {
                     character.CurrentHealth += Capacity;
-                }
 
-                if (!Reusable)
-                {
-                    Capacity = 0;
-                }
+                if (!Reusable) Capacity = 0;
             }
             else
             {

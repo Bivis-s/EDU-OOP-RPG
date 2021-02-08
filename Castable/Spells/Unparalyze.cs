@@ -9,20 +9,17 @@ namespace EDU_OOP_RPG.Spells
         public Unparalyze(int manaCost) : base(manaCost)
         {
         }
-        
+
         public Unparalyze(int manaCost, bool isVerbal, bool isMotor) : base(manaCost, isVerbal, isMotor)
         {
         }
 
         public void Cast(Character character)
         {
-            if (character.State != states.Paralyzed)
-            {
-                throw new RpgException("Цель заклинания не парализована");
-            }
+            if (character.State != States.Paralyzed) throw new RpgException("Цель заклинания не парализована");
 
             character.CurrentHealth = 1;
-            character.State = states.Weakened;
+            character.State = States.Weakened;
         }
     }
 }

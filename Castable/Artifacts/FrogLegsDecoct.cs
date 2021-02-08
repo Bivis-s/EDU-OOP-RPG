@@ -13,17 +13,11 @@ namespace EDU_OOP_RPG.Spells.BaseSpells.SpellInterfaces.Artifacts
         {
             if (Capacity > 0)
             {
-                if (character.State != states.Poisoned)
-                {
-                    throw new RpgException("Цель не отравлена");
-                }
-            
-                character.State = states.Weakened;
-            
-                if (!Reusable)
-                {
-                    Capacity = 0;
-                }
+                if (character.State != States.Poisoned) throw new RpgException("Цель не отравлена");
+
+                character.State = States.Weakened;
+
+                if (!Reusable) Capacity = 0;
             }
         }
     }
