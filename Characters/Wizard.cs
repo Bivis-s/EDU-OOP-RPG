@@ -14,6 +14,23 @@ namespace EDU_OOP_RPG.Characters
         private int currentMana;
         private int maxMana;
 
+        private Character character;
+
+        public Wizard(Character character)
+        {
+            Id = character.Id;
+            Name = character.Name;
+            State = character.State;
+            CanSpeak = character.CanSpeak;
+            CanMove = character.CanMove;
+            Race = character.Race;
+            Gender = character.Gender;
+            Age = character.Age;
+            MaxHealth = character.MaxHealth;
+            CurrentHealth = character.CurrentHealth;
+            Experience = character.Experience;
+        }
+
         public Wizard(int id, string name, races race, genders gender) : base(id, name,
             race, gender)
         {
@@ -67,7 +84,14 @@ namespace EDU_OOP_RPG.Characters
 
         public void LearnSpell(AbstractSpell spell)
         {
-            spellList.Add(spell);
+            if (!IsSpellLearned(spell))
+            {
+                spellList.Add(spell);
+            }
+            else
+            {
+                throw new RpgException("Персонаж уже знает это заклинание");
+            }
         }
 
         public void ForgetSpell(AbstractSpell spell)
@@ -244,9 +268,9 @@ namespace EDU_OOP_RPG.Characters
 
         public override string ToString()
         {
-            return base.ToString() + "\n" +
-                   "currentMana=" + CurrentMana + "\n" +
-                   "maxMana=" + maxMana + "\n" +
+            return base.ToString() + " " +
+                   " currentMana=" + CurrentMana +
+                   " maxMana=" + maxMana + " " +
                    GetLearnedSpellToPrint();
         }
     }

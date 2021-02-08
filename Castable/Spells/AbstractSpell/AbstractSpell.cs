@@ -39,5 +39,10 @@
             get => isMotor;
             set => isMotor = value;
         }
+        
+        public override string ToString()
+        {
+            return GetType().Name + " Mana cost: " + ManaCost;
+        }
     }
 }

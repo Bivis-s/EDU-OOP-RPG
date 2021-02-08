@@ -22,5 +22,10 @@ namespace EDU_OOP_RPG.Artifacts
             get => reusable;
             set => reusable = value;
         }
+
+        public override string ToString()
+        {
+            return GetType().Name + " " + Capacity + " reusable: " + Reusable;
+        }
     }
 }

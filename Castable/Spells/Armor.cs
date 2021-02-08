@@ -21,19 +21,26 @@ namespace EDU_OOP_RPG.Spells
 
         public void Cast(Character character, int grade)
         {
-            if (character.State == states.Dead)
+            if (character.State != states.Invulnerable)
             {
-                throw new RpgException("Цель заклинания мертва");
-            }
+                if (character.State == states.Dead)
+                {
+                    throw new RpgException("Цель заклинания мертва");
+                }
 
-            states oldState = character.State;
-            character.State = states.Invulnerable;
-            Thread invulnerableTimer = new Thread(() =>
+                states oldState = character.State;
+                character.State = states.Invulnerable;
+                Thread invulnerableTimer = new Thread(() =>
+                {
+                    Thread.Sleep(1000 * grade);
+                    character.State = oldState;
+                });
+                invulnerableTimer.Start();
+            }
+            else
             {
-                Thread.Sleep(1000 * grade);
-                character.State = oldState;
-            });
-            invulnerableTimer.Start();
+                throw new RpgException("Персонаж уже под эффектом брони!");
+            }
         }
     }
 }

@@ -50,11 +50,20 @@ public class Character : IComparable
 
     private static HashSet<Int32> globalIdSet = new HashSet<int>();
 
+    public void RemoveCharacterFromGlobalIdSet()
+    {
+        globalIdSet.Remove(Id);
+    }
+
+    protected Character()
+    {
+    }
+
     public Character(int id, string name, races race, genders gender)
     {
         if (!globalIdSet.Contains(id))
         {
-            this.id = id;
+            Id = id;
             globalIdSet.Add(id);
         }
         else
@@ -62,9 +71,9 @@ public class Character : IComparable
             throw new ArgumentException("Идентификатор персонажа не уникален!");
         }
 
-        this.name = name;
-        this.race = race;
-        this.gender = gender;
+        Name = name;
+        Race = race;
+        Gender = gender;
     }
 
     private double GetHealthDegree(int health)
@@ -101,11 +110,13 @@ public class Character : IComparable
     public int Id
     {
         get => id;
+        set => id = value;
     }
 
     public string Name
     {
         get => name;
+        set => name = value;
     }
 
     public states State
@@ -129,11 +140,13 @@ public class Character : IComparable
     public races Race
     {
         get => race;
+        set => race = value;
     }
 
     public genders Gender
     {
         get => gender;
+        set => gender = value;
     }
 
     public int Age
@@ -246,6 +259,12 @@ public class Character : IComparable
         }
     }
 
+    public void GiveArtifactTo(AbstractArtifact artifact, Character character)
+    {
+        RemoveArtifactFromInventory(artifact);
+        character.AddArtifactToInventory(artifact);
+    }
+
     public List<AbstractArtifact> GetArtifactInventory()
     {
         if (artifactList.Capacity != 0)
@@ -299,7 +318,7 @@ public class Character : IComparable
             throw new RpgException("Персонаж мёртв!");
         }
     }
-    
+
     public void UseArtifact(IGradeSpell spell, int grade)
     {
         if (State != states.Dead)
@@ -319,7 +338,7 @@ public class Character : IComparable
             throw new RpgException("Персонаж мёртв!");
         }
     }
-    
+
     public void UseArtifact(ISelfSpell spell)
     {
         if (State != states.Dead)
@@ -342,12 +361,12 @@ public class Character : IComparable
 
     #endregion
 
-    private string GetLearnedSpellToPrint()
+    private string GetArtifactsInInventoryToPrint()
     {
         try
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("learnedSpells=");
+            stringBuilder.Append("Inventory=");
             List<AbstractArtifact> learnedSpells = GetArtifactInventory();
             for (int i = 0; i < learnedSpells.Count; i++)
             {
@@ -358,28 +377,29 @@ public class Character : IComparable
                     stringBuilder.Append(", ");
                 }
             }
+
             return stringBuilder.ToString();
         }
-        catch (RpgException e)
+        catch (RpgException)
         {
-            return "No artifact has";
+            return "Инвентарь пуст";
         }
     }
 
     public override string ToString()
     {
-        return "Character" + "\n" +
-               "id=" + Id + "\n" +
-               "name='" + Name + '\'' + "\n" +
-               "state='" + State + '\'' + "\n" +
-               "canSpeak=" + CanSpeak + "\n" +
-               "canMove=" + CanMove + "\n" +
-               "race='" + Race + '\'' + "\n" +
-               "gender='" + Gender + '\'' + "\n" +
-               "age=" + Age + "\n" +
-               "currentHealth=" + CurrentHealth + "\n" +
-               "maxHealth=" + MaxHealth + "\n" +
-               "experience=" + Experience + "\n" +
-               GetLearnedSpellToPrint();
+        return GetType().Name +
+               " id=" + Id +
+               " name='" + Name + '\'' +
+               " state='" + State + '\'' +
+               " canSpeak=" + CanSpeak +
+               " canMove=" + CanMove +
+               " race='" + Race + '\'' +
+               " gender='" + Gender + '\'' + 
+               " age=" + Age +
+               " currentHealth=" + CurrentHealth +
+               " maxHealth=" + MaxHealth +
+               " experience=" + Experience + " " +
+               GetArtifactsInInventoryToPrint();
     }
 }
